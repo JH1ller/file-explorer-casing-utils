@@ -13,13 +13,13 @@ enum CasingTransforms {
   camelCase, // fileName.ts
   pascalCase, // FileName.ts
   kebabCase, // file-name.ts
-  snakeCase // file_name.ts
+  snakeCase, // file_name.ts
 }
 
 type TransformFn = (str: string) => string;
 
 interface SelectCaseItem extends QuickPickItem {
-  transformType: CasingTransforms
+  transformType: CasingTransforms;
 }
 
 const quickPickItems: SelectCaseItem[] = [
@@ -27,25 +27,25 @@ const quickPickItems: SelectCaseItem[] = [
     label: 'Camel Case',
     description: 'fileName',
     alwaysShow: true,
-    transformType: CasingTransforms.camelCase
+    transformType: CasingTransforms.camelCase,
   },
   {
     label: 'Pascal Case',
     description: 'FileName',
     alwaysShow: true,
-    transformType: CasingTransforms.pascalCase
+    transformType: CasingTransforms.pascalCase,
   },
   {
     label: 'Kebab Case',
     description: 'file-name',
     alwaysShow: true,
-    transformType: CasingTransforms.kebabCase
+    transformType: CasingTransforms.kebabCase,
   },
   {
     label: 'Snake Case',
     description: 'file_name',
     alwaysShow: true,
-    transformType: CasingTransforms.snakeCase
+    transformType: CasingTransforms.snakeCase,
   },
 ];
 
@@ -53,11 +53,10 @@ const transformFunctions: Record<CasingTransforms, TransformFn> = {
   [CasingTransforms.camelCase]: camelize,
   [CasingTransforms.pascalCase]: pascalize,
   [CasingTransforms.kebabCase]: kebablize,
-  [CasingTransforms.snakeCase]: snakelize
+  [CasingTransforms.snakeCase]: snakelize,
 };
 
 export function activate(context: vscode.ExtensionContext) {
-
   const changeCasingCommand = vscode.commands.registerCommand(
     'file-explorer-casing-utils.changeCasing',
     showDialog
@@ -66,10 +65,12 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(changeCasingCommand);
 }
 
-const showDialog = async (_selectedFile: any, inputFiles: any[]): Promise<void> => {
-
+const showDialog = async (
+  _selectedFile: any,
+  inputFiles: any[]
+): Promise<void> => {
   const selectedTransform = await window.showQuickPick(quickPickItems, {
-    placeHolder: 'Which casing should the file name be transformed to?'
+    placeHolder: 'Which casing should the file name be transformed to?',
   });
 
   if (selectedTransform) {
@@ -77,29 +78,39 @@ const showDialog = async (_selectedFile: any, inputFiles: any[]): Promise<void> 
   }
 };
 
-const parseFiles = async (inputFiles: any[], transformType: CasingTransforms) => {
+const parseFiles = async (
+  inputFiles: any[],
+  transformType: CasingTransforms
+) => {
   let directories: string[] = [];
   let files: string[] = [];
 
-  inputFiles.forEach(file => lstatSync(file.fsPath).isDirectory() ? directories.push(file.fsPath) : files.push(file.fsPath));
+  inputFiles.forEach((file) =>
+    lstatSync(file.fsPath).isDirectory()
+      ? directories.push(file.fsPath)
+      : files.push(file.fsPath)
+  );
   await renameFiles(files, transformType);
   await renameFiles(directories, transformType);
 };
 
-const renameFiles = async (files: string[], transformType: CasingTransforms): Promise<void> => {
+const renameFiles = async (
+  files: string[],
+  transformType: CasingTransforms
+): Promise<void> => {
   for (const file of files) {
     const parsedFile = parse(file);
     const fileParts = parsedFile.base.split('.');
     const fileName = fileParts.shift();
 
     // only transform first part of filename before a '.', so sample-component.models.ts will become SampleComponent.models.ts
-    const newFileName = [transformFunctions[transformType](fileName as string), ...fileParts].join('.');
-    const newFilePath = posix.join(
-      dirname(file),
-      newFileName
-    );
+    const newFileName = [
+      transformFunctions[transformType](fileName as string),
+      ...fileParts,
+    ].join('.');
+    const newFilePath = posix.join(dirname(file), newFileName);
     const gitRoot = getRepoInfo(file).root;
-  
+
     try {
       if (gitRoot) {
         const relativeOldPath = relative(gitRoot, file);
@@ -113,7 +124,9 @@ const renameFiles = async (files: string[], transformType: CasingTransforms): Pr
       vscode.window.showInformationMessage('File(s) renamed successfully');
     } catch (error) {
       console.log(error);
-      vscode.window.showErrorMessage('An error occurred while renaming file(s)');
+      vscode.window.showErrorMessage(
+        'An error occurred while renaming file(s)'
+      );
     }
   }
 };
