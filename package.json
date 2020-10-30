@@ -1,0 +1,58 @@
+{
+	"name": "file-explorer-casing-utils",
+	"displayName": "File Explorer Casing Utils",
+	"description": "Extension to change file or directory name casings, individually or in bulk",
+  "version": "0.0.1",
+  "icon": "assets/icon.png",
+  "publisher": "JustinH1ller",
+	"engines": {
+		"vscode": "^1.50.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:file-explorer-casing-utils.changeCasing"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "file-explorer-casing-utils.changeCasing",
+				"title": "Change file name casing"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+          "command": "file-explorer-casing-utils.changeCasing",
+          "group": "7_modification"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint src --ext ts",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.50.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.0",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.9.0",
+		"@typescript-eslint/eslint-plugin": "^4.1.1",
+		"@typescript-eslint/parser": "^4.1.1",
+		"glob": "^7.1.6",
+		"mocha": "^8.1.3",
+		"typescript": "^4.0.2",
+		"vscode-test": "^1.4.0"
+	},
+	"dependencies": {
+		"git-repo-info": "^2.1.1"
+	}
+}
