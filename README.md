@@ -6,11 +6,11 @@
 01. Click 'change file name casing' in the file explorer context menu:
 (Tip: you can also select multiple files and folders and rename them in bulk)
 
-![screen01](assets/screen01.png "Click 'change file name casing' in the file explorer context menu")
+![screen01](https://raw.githubusercontent.com/JH1ller/file-explorer-casing-utils/main/assets/screen01.png "Click 'change file name casing' in the file explorer context menu")
 
-02. Select the desired casing style from the dialog:
+1.  Select the desired casing style from the dialog:
 
-![screen01](assets/screen02.png "Select the desired casing style from the dialog")
+![screen02](https://raw.githubusercontent.com/JH1ller/file-explorer-casing-utils/main/assets/screen02.png "Select the desired casing style from the dialog")
 
 
 
