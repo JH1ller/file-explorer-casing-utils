@@ -5,6 +5,10 @@
   "version": "0.0.1",
   "icon": "assets/icon.png",
   "publisher": "JustinH1ller",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JH1ller/file-explorer-casing-utils.git"
+  },
 	"engines": {
 		"vscode": "^1.50.0"
 	},
@@ -54,5 +58,13 @@
 	},
 	"dependencies": {
 		"git-repo-info": "^2.1.1"
-	}
+  },
+  "keywords": [
+    "fileexplorer",
+    "utils",
+    "naming",
+    "casing",
+    "file",
+    "explorer"
+  ]
 }
