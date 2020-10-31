@@ -8,9 +8,13 @@
 
 ![screen01](https://raw.githubusercontent.com/JH1ller/file-explorer-casing-utils/main/assets/screen01.png "Click 'change file name casing' in the file explorer context menu")
 
-1.  Select the desired casing style from the dialog:
+02.  Select the desired casing style from the dialog:
 
 ![screen02](https://raw.githubusercontent.com/JH1ller/file-explorer-casing-utils/main/assets/screen02.png "Select the desired casing style from the dialog")
+
+03.  You can also change the casing style of a selection in your editor:
+
+![screen03](https://raw.githubusercontent.com/JH1ller/file-explorer-casing-utils/main/assets/screen03.png "You can also change the casing style of a selection in your editor")
 
 
 
