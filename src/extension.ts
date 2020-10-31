@@ -57,18 +57,50 @@ const transformFunctions: Record<CasingTransforms, TransformFn> = {
 };
 
 export function activate(context: vscode.ExtensionContext) {
-  const changeCasingCommand = vscode.commands.registerCommand(
-    'file-explorer-casing-utils.changeCasing',
+  const changeFileCasingCommand = vscode.commands.registerCommand(
+    'file-explorer-casing-utils.changeFileCasing',
     showDialog
   );
 
-  context.subscriptions.push(changeCasingCommand);
+  const selectionToCamelCommand = vscode.commands.registerCommand(
+    'file-explorer-casing-utils.changeSelectionToCamel',
+    changeCasingOfSelection(CasingTransforms.camelCase)
+  );
+
+  const selectionToPascalCommand = vscode.commands.registerCommand(
+    'file-explorer-casing-utils.changeSelectionToPascal',
+    changeCasingOfSelection(CasingTransforms.pascalCase)
+  );
+
+  const selectionToKebabCommand = vscode.commands.registerCommand(
+    'file-explorer-casing-utils.changeSelectionToKebab',
+    changeCasingOfSelection(CasingTransforms.kebabCase)
+  );
+
+  const selectionToSnakeCommand = vscode.commands.registerCommand(
+    'file-explorer-casing-utils.changeSelectionToSnake',
+    changeCasingOfSelection(CasingTransforms.snakeCase)
+  );
+
+  context.subscriptions.push(changeFileCasingCommand);
+
+  context.subscriptions.push(selectionToCamelCommand);
+  context.subscriptions.push(selectionToPascalCommand);
+  context.subscriptions.push(selectionToKebabCommand);
+  context.subscriptions.push(selectionToSnakeCommand);
 }
 
-const showDialog = async (
-  _selectedFile: any,
-  inputFiles: any[]
-): Promise<void> => {
+const changeCasingOfSelection = (transformType: CasingTransforms) => (() => {
+    const editor = vscode.window.activeTextEditor;
+    const selection = editor?.selection;
+    const text = editor?.document.getText(selection);
+    if (selection && text) {
+      editor?.edit(editBuilder => editBuilder.replace(selection, transformFunctions[transformType](text)));
+    }
+  }
+);
+
+const showDialog = async (selectedFile: any, inputFiles: any[]): Promise<void> => {
   const selectedTransform = await window.showQuickPick(quickPickItems, {
     placeHolder: 'Which casing should the file name be transformed to?',
   });
@@ -78,10 +110,7 @@ const showDialog = async (
   }
 };
 
-const parseFiles = async (
-  inputFiles: any[],
-  transformType: CasingTransforms
-) => {
+const parseFiles = async (inputFiles: any[], transformType: CasingTransforms) => {
   let directories: string[] = [];
   let files: string[] = [];
 
@@ -94,10 +123,7 @@ const parseFiles = async (
   await renameFiles(directories, transformType);
 };
 
-const renameFiles = async (
-  files: string[],
-  transformType: CasingTransforms
-): Promise<void> => {
+const renameFiles = async (files: string[], transformType: CasingTransforms): Promise<void> => {
   for (const file of files) {
     const parsedFile = parse(file);
     const fileParts = parsedFile.base.split('.');

@@ -2,7 +2,7 @@
 	"name": "file-explorer-casing-utils",
 	"displayName": "File Explorer Casing Utils",
 	"description": "Extension to change file or directory name casings, individually or in bulk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "icon": "assets/icon.png",
   "publisher": "JustinH1ller",
   "repository": {
@@ -16,24 +16,71 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:file-explorer-casing-utils.changeCasing"
+		"onCommand:file-explorer-casing-utils.changeFileCasing",
+		"onCommand:file-explorer-casing-utils.changeSelectionToCamel",
+		"onCommand:file-explorer-casing-utils.changeSelectionToPascal",
+		"onCommand:file-explorer-casing-utils.changeSelectionToKebab",
+		"onCommand:file-explorer-casing-utils.changeSelectionToSnake"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "file-explorer-casing-utils.changeCasing",
+				"command": "file-explorer-casing-utils.changeFileCasing",
 				"title": "Change file name casing"
+			},
+			{
+				"command": "file-explorer-casing-utils.changeSelectionToCamel",
+				"title": "Camel Case"
+			},
+			{
+				"command": "file-explorer-casing-utils.changeSelectionToPascal",
+				"title": "Pascal Case"
+			},
+			{
+				"command": "file-explorer-casing-utils.changeSelectionToKebab",
+				"title": "Kebab Case"
+			},
+			{
+				"command": "file-explorer-casing-utils.changeSelectionToSnake",
+				"title": "Snake Case"
 			}
 		],
 		"menus": {
 			"explorer/context": [
 				{
-          "command": "file-explorer-casing-utils.changeCasing",
+          "command": "file-explorer-casing-utils.changeFileCasing",
           "group": "7_modification"
 				}
-			]
-		}
+      ],
+      "editor/context": [
+        {
+          "submenu": "change.casing",
+          "when": "editorHasSelection",
+          "group": "7_modification"
+        }
+      ],
+      "change.casing": [
+        {
+          "command": "file-explorer-casing-utils.changeSelectionToCamel"
+        },
+        {
+          "command": "file-explorer-casing-utils.changeSelectionToPascal"
+        },
+        {
+          "command": "file-explorer-casing-utils.changeSelectionToKebab"
+        },
+        {
+          "command": "file-explorer-casing-utils.changeSelectionToSnake"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "change.casing",
+        "label": "Change casing"
+      }
+    ]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
